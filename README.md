@@ -26,9 +26,8 @@
 
 
 ## Reference
-@article{chang2021mau,
-title={MAU: A Motion-Aware Unit for Video Prediction and Beyond},
-author={Chang, Zheng and Zhang, Xinfeng and Wang, Shanshe and Ma, Siwei and Ye, Yan and Xinguang, Xiang and Gao, Wen},
-journal={Advances in Neural Information Processing Systems},
-volume={34},
-year={2021}} 
+[1] Motion Aware Unit (MAU) repository
+
+[2] Variable Mobility Cahn-Hilliard sequential code repository
+
+[3] Zhu, J., Chen, L. Q., Shen, J., & Tikare, V. (1999). Coarsening kinetics from a variable-mobility Cahn-Hilliard equation: Application of a semi-implicit Fourier spectral method. Physical Review E, 60(4), 3564.
