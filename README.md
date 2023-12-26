@@ -1,4 +1,4 @@
-# This repository includes two files: An MPI version Cahn-Hilliard solver and a L-MAU model
+#  MPI Cahn-Hilliard solver and L-MAU model
 
 
 
