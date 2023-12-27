@@ -23,7 +23,7 @@ python3 run.py \
 -display_interval 100 \
 -max_iterations 80000 \
 -plt_num_PCs 20 \
--model_name smau \
+-model_name lmau \
 -num_layers 4 \
 -num_hidden 128 \
 -tau 40 \

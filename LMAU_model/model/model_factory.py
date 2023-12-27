@@ -5,7 +5,7 @@ import torch.nn as nn
 from torch.optim import Adam
 import torch.optim.lr_scheduler as lr_scheduler
 sys.path.append('./model')
-import sMAU
+import LMAU
 
 class Model(object):
     def __init__(self, configs):
@@ -14,7 +14,7 @@ class Model(object):
         self.num_layers = configs.num_layers 
         self.sampling_stop_iter = configs.sampling_stop_iter
         networks_map = {
-            'smau': sMAU.RNN,
+            'lmau': LMAU.RNN,
         }
         num_hidden = []
         for i in range(configs.num_layers):

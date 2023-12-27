@@ -1,9 +1,26 @@
 #  MPI Cahn-Hilliard solver and L-MAU model
 
 ## MPI_CH_solver folder
-1. requirement
-   * mpicc (OpenMPI or other MPI library) https://www.open-mpi.org/
+This code is modified from Ref.[2] to include simple parallelism with MPI.
+The Cahn-Hilliard model includes Flory-Huggins free energy and fast mobility model.
+1. Requirement
+   * mpicc (OpenMPI or other MPI library)
+   * fftw3 https://www.fftw.org/
    * gnu/gsl https://www.gnu.org/software/gsl/ <br>
+
+2. Compiling
+   * Please follow the makefile comment to change the vpath directory of gsl, fftw3, and mpi based on the machine
+   * After successful compilation, two object files: VariableCH.o evolution.o and one executable file CH_variable_mobility.out would be created
+   
+3. Run
+   * You can either run it with terminal or by submitting a script file to the schedulers 
+```
+mpirun -np <number_of_processors> CH_variable_mobility.out
+
+```   
+## L-MAU_model folder
+
+   
 	
 
 

@@ -2,7 +2,7 @@ import sys
 import torch
 import torch.nn as nn
 sys.path.append('./model/layers')
-from layers.sMAUcell import sMAUCell
+from layers.LMAUcell import LMAUCell
 import math
 
 class RNN(nn.Module):
@@ -30,7 +30,7 @@ class RNN(nn.Module):
             3   64      64
             '''
             cell_list.append(
-                sMAUCell(in_features, num_hidden[i], self.tau, self.cell_mode)
+                LMAUCell(in_features, num_hidden[i], self.tau, self.cell_mode)
             )
         
         self.cell_list = nn.ModuleList(cell_list)

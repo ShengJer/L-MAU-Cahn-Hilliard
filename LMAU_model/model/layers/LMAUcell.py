@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import math
 
-class sMAUCell(nn.Module):
+class LMAUCell(nn.Module):
     def __init__(self, in_features, num_hidden, tau, cell_mode):
-        super(sMAUCell, self).__init__()
+        super(LMAUCell, self).__init__()
         self.num_hidden = num_hidden
         self.cell_mode = cell_mode # residual or normal in states
         self.tau = tau # how much previous time should be considered
