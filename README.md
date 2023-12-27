@@ -1,5 +1,10 @@
 #  MPI Cahn-Hilliard solver and L-MAU model
 
+## MPI_CH_solver folder
+1. requirement
+   * mpicc (OpenMPI or other MPI library) https://www.open-mpi.org/
+   * gnu/gsl https://www.gnu.org/software/gsl/ <br>
+	
 
 
 
@@ -26,8 +31,8 @@
 
 
 ## Reference
-[1] Motion Aware Unit (MAU) repository
+[1] Motion Aware Unit (MAU) repository https://github.com/ZhengChang467/MAU
 
-[2] Variable Mobility Cahn-Hilliard sequential code repository
+[2] Variable Mobility Cahn-Hilliard sequential code repository https://github.com/abhinavroy1999/variable-mobility-Cahn-Hilliard-code
 
 [3] Zhu, J., Chen, L. Q., Shen, J., & Tikare, V. (1999). Coarsening kinetics from a variable-mobility Cahn-Hilliard equation: Application of a semi-implicit Fourier spectral method. Physical Review E, 60(4), 3564.
