@@ -33,10 +33,10 @@ train_filelist = os.listdir(train_datapath)
 
 
 auto = np.zeros(auto_shape, dtype=np.float32)
-for i in range(1, samples+1):
-    filename = os.path.join(train_datapath, train_filelist[i-1])
+for i in range(samples):
+    filename = os.path.join(train_datapath, train_filelist[i])
     data = np.load(filename)['data']
-    auto[i-1, :, :, :]=data.astype(np.float32)        
+    auto[i, :, :, :]=data.astype(np.float32)        
 
 
 pca = PCA(
