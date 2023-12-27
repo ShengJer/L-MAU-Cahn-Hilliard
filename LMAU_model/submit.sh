@@ -1,9 +1,9 @@
 
 python3 run.py \
--train_data_paths /home/u2186314/sMAU/PCA_data/PCA_train_data.npz \
--valid_data_paths /home/u2186314/sMAU/PCA_data/PCA_valid_data.npz \
--test_data_paths /home/u2186314/sMAU/PCA_data/PCA_test_data.npz \
--PCA_dir /home/u2186314/sMAU/PCA_model \
+-train_data_paths ./data/PCA_data/PCA_train_data.npz \
+-valid_data_paths ./data/PCA_data/PCA_valid_data.npz \
+-test_data_paths ./data/PCA_data/PCA_test_data.npz \
+-PCA_dir ./data/PCA_model \
 -PCA_name pca.pkl \
 -gen_frm_dir results \
 -test_frm_dir test_results \
