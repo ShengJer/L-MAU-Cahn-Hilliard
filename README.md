@@ -1,11 +1,13 @@
 #  MPI Cahn-Hilliard solver and L-MAU model
 
 ## MPI_CH_solver folder
-This code is modified from Ref.[1] to include simple parallelism with MPI.
+This code is modified from Ref.[1], a semi-implicit spectral method, to include simple parallelism with MPI.
 The Cahn-Hilliard model includes Flory-Huggins free energy and fast mobility model [2].
 1. Requirement
    * mpicc (OpenMPI or other MPI library)
-   * fftw3 https://www.fftw.org/
+   * FFTW3
+     * please ensure FFTW3 MPI libraries and header files are successfully configured and compiled
+     * https://www.fftw.org/
    * gnu/gsl https://www.gnu.org/software/gsl/ <br>
 
 2. Compiling code
@@ -32,6 +34,7 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 4. run the ./data/create_PCAdata to transform autocorrelation data into PCA data with reduced dimension by the PCA model created early (some parameters still need to be change according to the user at the start of the .py file).
 
 5. To run the L-MAU model, please change the parameters inside the submit.sh file and execute the bashfile by ` bash submit.sh` or write a script file for the cluster scheduler.
+
 
 
 
