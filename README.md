@@ -36,7 +36,12 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 5. To run the L-MAU model, please change the parameters inside the submit.sh file and execute the bashfile by ` bash submit.sh` or write a script file for the cluster scheduler.
 
 
+## Autoencoder folder
+1. This folder includes the model of LCA (low compression ratio) and HCA (high compression ratio) in model_autoencoder.py and the training process in run.py
 
+2. the submit.sh file show an example of the reqired parameters for execute run.py (user must specify the training data directory: train_filepath)
+
+3. the training data directory must has several training data (.npz file) have shape (TL(total time), Ny, Nx) that can be loaded by numpy command ` np.load(filename)['data']` (an example file is placed in directory train_data)
 
 
 
@@ -66,3 +71,5 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 [3] Motion Aware Unit (MAU) repository https://github.com/ZhengChang467/MAU
 
 [4] Zhu, J., Chen, L. Q., Shen, J., & Tikare, V. (1999). Coarsening kinetics from a variable-mobility Cahn-Hilliard equation: Application of a semi-implicit Fourier spectral method. Physical Review E, 60(4), 3564.
+
+[6] Chen, B., Huang, K., Raghupathi, S., Chandratreya, I., Du, Q., & Lipson, H. (2022). Automated discovery of fundamental variables hidden in experimental data. Nature Computational Science, 2(7), 433-442.

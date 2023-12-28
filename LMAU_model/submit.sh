@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "start model"
+echo "start LMAU model"
 
 python3 run.py \
 -train_data_paths ./data/PCA_data/PCA_train_data.npz \
