@@ -31,7 +31,7 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 	
 3. modify and run the ./data/gPCA.py file to generate PCA model in ./data/PCA_model (some parameters need to be changed according to the size of training set, and the PCA components you want).
 
-4. run the ./data/create_PCAdata to transform autocorrelation data into PCA data with reduced dimension by the PCA model created early (some parameters still need to be change according to the user at the start of the .py file).
+4. run the ./data/create_PCAdata to transform autocorrelation data into PCA data with reduced dimension by the PCA model been created early (some parameters still need to be change according to the user at the start of the .py file).
 
 5. To run the L-MAU model, please change the parameters inside the submit.sh file and execute the bashfile by ` bash submit.sh` or write a script file for the cluster scheduler.
 
@@ -41,11 +41,16 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 
 2. the submit.sh file show an example of the reqired parameters for execute run.py (user must specify the training data directory: train_filepath)
 
-3. the training data directory must has several training data (.npz file) have shape (TL(total time), Ny, Nx) that can be loaded by numpy command ` np.load(filename)['data']` (an example file is placed in directory train_data)
+3. the training data directory must has several training data (.npz file) having shape (TL(total time), Ny, Nx) that can be loaded by numpy command ` np.load(filename)['data']` (an example file is placed in directory train_data)
 
+### LCA pipelines
+  a. train the low compression autoencoder and transform high dimensional training and validating dataset into latent space features.
+  
+  b. generate PCA model and data by fitting the latent space features.
+  
+  c. transform latent space features into PCA data with reduced dimension by the PCA model been created.
 
-
-
+  d. run the L-MAU model to perform prediction on low dimensional evolution. 
 
 
 
@@ -72,4 +77,4 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 
 [4] Zhu, J., Chen, L. Q., Shen, J., & Tikare, V. (1999). Coarsening kinetics from a variable-mobility Cahn-Hilliard equation: Application of a semi-implicit Fourier spectral method. Physical Review E, 60(4), 3564.
 
-[6] Chen, B., Huang, K., Raghupathi, S., Chandratreya, I., Du, Q., & Lipson, H. (2022). Automated discovery of fundamental variables hidden in experimental data. Nature Computational Science, 2(7), 433-442.
+[5] Chen, B., Huang, K., Raghupathi, S., Chandratreya, I., Du, Q., & Lipson, H. (2022). Automated discovery of fundamental variables hidden in experimental data. Nature Computational Science, 2(7), 433-442.
