@@ -36,6 +36,9 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 5. To run the L-MAU model, please change the parameters inside the submit.sh file and execute the bashfile by ` bash submit.sh` or write a script file for the cluster scheduler.
 
 
+## Analysis folder
+* This folder includes two files: Autocorrelation.py and Structure_factor.py for statistical analysis
+
 ## Autoencoder folder
 1. This folder includes the model of LCA (low compression ratio) and HCA (high compression ratio) in model_autoencoder.py and the training process in run.py
 
