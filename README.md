@@ -1,5 +1,7 @@
 #  MPI Cahn-Hilliard solver and L-MAU model
 
+The source code of the work : Chen SJ, Yu HY. L-MAU: A multivariate time-series network for predicting the Cahn-Hilliard microstructure evolutions via low-dimensional approaches. Computer Physics Communications. 2024 Dec 1;305:109342.
+
 ## MPI_CH_solver folder
 This code is modified from Ref.[1], a semi-implicit spectral method, to include simple parallelism with MPI.
 The Cahn-Hilliard model includes Flory-Huggins free energy and fast mobility model [2].
@@ -57,19 +59,6 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Reference
 
 [1] Variable Mobility Cahn-Hilliard sequential code repository https://github.com/abhinavroy1999/variable-mobility-Cahn-Hilliard-code
@@ -81,3 +70,8 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 [4] Zhu, J., Chen, L. Q., Shen, J., & Tikare, V. (1999). Coarsening kinetics from a variable-mobility Cahn-Hilliard equation: Application of a semi-implicit Fourier spectral method. Physical Review E, 60(4), 3564.
 
 [5] Chen, B., Huang, K., Raghupathi, S., Chandratreya, I., Du, Q., & Lipson, H. (2022). Automated discovery of fundamental variables hidden in experimental data. Nature Computational Science, 2(7), 433-442.
+
+
+## Citation
+If you use this code for academic research, you are encouraged to cite the following paper:
+@article{chen2024LMAU, author = {Chen SJ and Yu HY}, title = {L-MAU: A multivariate time-series network for predicting the Cahn-Hilliard microstructure evolutions via low-dimensional approaches}, journal = {Computer Physics Communications}, volume = {305}, year = {2024}, pages = {109342}, doi = {10.1016/j.cpc.2024.109342} }

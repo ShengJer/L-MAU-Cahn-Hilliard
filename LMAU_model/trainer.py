@@ -42,6 +42,7 @@ def test(model, pca_model, test_input_handle, configs, itr):
         batch_id = batch_id + 1
         test_ims = test_input_handle.get_batch()  # (B, TL, PCs)
         
+        
         ## normalize the data
         test_max_value=np.max(test_ims, axis=1)[:,None,:]
         test_min_value=np.min(test_ims, axis=1)[:,None,:]
@@ -92,8 +93,8 @@ def test(model, pca_model, test_input_handle, configs, itr):
             pred_scale_L_np= img_out * (denominator) + test_min_value
 
             orig_ims=orig_ims_L_np.reshape(-1, configs.in_features)
-            pred_scale=pred_scale_L_np.reshape(-1, configs.in_features
-)
+            pred_scale=pred_scale_L_np.reshape(-1, configs.in_features)
+            
             orig_ims=pca_model.inverse_transform(orig_ims).reshape(configs.batch_size, configs.total_length, configs.img_height, configs.img_width)
             pred_scale=pca_model.inverse_transform(pred_scale).reshape(configs.batch_size, configs.output_length, configs.img_height, configs.img_width)
             if configs.is_training == 0:
