@@ -1,6 +1,7 @@
 #  MPI Cahn-Hilliard solver and L-MAU model
 
-The source code of the work : Chen SJ, Yu HY. L-MAU: A multivariate time-series network for predicting the Cahn-Hilliard microstructure evolutions via low-dimensional approaches. Computer Physics Communications. 2024 Dec 1;305:109342.
+The source code of the work : <br>
+[Chen SJ, Yu HY. L-MAU: A multivariate time-series network for predicting the Cahn-Hilliard microstructure evolutions via low-dimensional approaches. Computer Physics Communications. 2024 Dec 1;305:109342.](https://www.sciencedirect.com/science/article/pii/S0010465524002650)
 
 ## MPI_CH_solver folder
 This code is modified from Ref.[1], a semi-implicit spectral method, to include simple parallelism with MPI.
@@ -73,5 +74,14 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 
 
 ## Citation
-If you use this code for academic research, you are encouraged to cite the following paper:
-@article{chen2024LMAU, author = {Chen SJ and Yu HY}, title = {L-MAU: A multivariate time-series network for predicting the Cahn-Hilliard microstructure evolutions via low-dimensional approaches}, journal = {Computer Physics Communications}, volume = {305}, year = {2024}, pages = {109342}, doi = {10.1016/j.cpc.2024.109342} }
+If you use this code for academic research, you are encouraged to cite the following paper: <br>
+```
+@article{chen2024LMAU, author = {Chen SJ and Yu HY},
+title = {L-MAU: A multivariate time-series network for predicting the Cahn-Hilliard microstructure evolutions via low-dimensional approaches}, journal = {Computer Physics Communications},
+volume = {305},
+year = {2024},
+pages = {109342},
+doi = {10.1016/j.cpc.2024.109342}
+}
+```
+
