@@ -76,7 +76,8 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 ## Citation
 If you use this code for academic research, you are encouraged to cite the following paper: <br>
 ```
-@article{chen2024LMAU, author = {Chen SJ and Yu HY},
+@article{chen2024LMAU,
+author = {Chen SJ and Yu HY},
 title = {L-MAU: A multivariate time-series network for predicting the Cahn-Hilliard microstructure evolutions via low-dimensional approaches}, journal = {Computer Physics Communications},
 volume = {305},
 year = {2024},
