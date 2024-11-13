@@ -17,7 +17,7 @@ pynvml.nvmlInit() # initialize GPU version message
 np.random.seed(1234)
 torch.manual_seed(1234)
 # -----------------------------------------------------------------------------
-parser = argparse.ArgumentParser(description='sMAU')
+parser = argparse.ArgumentParser(description='lMAU')
 
 parser.add_argument('-train_data_paths', type=str, default='./data/PCA_data/train_data.npz')
 parser.add_argument('-valid_data_paths', type=str, default='./data/PCA_data/valid_data.npz')
