@@ -19,47 +19,47 @@ torch.manual_seed(1234)
 # -----------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description='sMAU')
 
-parser.add_argument('-train_data_paths', type=str, default='PCA_data/PCA_train_data')
-parser.add_argument('-valid_data_paths', type=str, default='PCA_data/PCA_valid_data')
-parser.add_argument('-test_data_paths', type=str, default='PCA_data/PCA_valid_data')
+parser.add_argument('-train_data_paths', type=str, default='./data/PCA_data/train_data.npz')
+parser.add_argument('-valid_data_paths', type=str, default='./data/PCA_data/valid_data.npz')
+parser.add_argument('-test_data_paths', type=str, default='./data/PCA_data/PCA_test_data.npz')
 
-parser.add_argument('-PCA_dir', type=str, default='./PCA_model')
+parser.add_argument('-PCA_dir', type=str, default='./data/PCA_model')
 parser.add_argument('-PCA_name', type=str, default='pca.pkl')
 parser.add_argument('-gen_frm_dir', type=str, default='results')
 parser.add_argument('-test_frm_dir', type=str, default='test_results')
 parser.add_argument('-save_dir', type=str, default='checkpoints')
 parser.add_argument('-cplot_dir', type=str, default='cplot')
 parser.add_argument('-Graph_dir', type=str, default='Graph')
-parser.add_argument('-dataset_name', type=str, default='phase_field_ram_all')
-parser.add_argument('-save_modelname', type=str, default='model.pt.tar-1234')
+parser.add_argument('-dataset_name', type=str, default='phase_field')
+parser.add_argument('-save_modelname', type=str, default='model.pt.tar-58000')
 
 parser.add_argument('-batch_size', type=int, default=10)
-parser.add_argument('-in_features', type=int, default=25)
+parser.add_argument('-in_features', type=int, default=50)
 parser.add_argument('-img_width', type=int, default=256)
 parser.add_argument('-img_height', type=int, default=256)
 parser.add_argument('-img_channel', type=int, default=1)
 parser.add_argument('-total_length', type=int, default=80)
 parser.add_argument('-input_length', type=int, default=10)
 parser.add_argument('-output_length', type=int, default=70)
-parser.add_argument('-display_interval', type=int, default=1)
+parser.add_argument('-display_interval', type=int, default=100)
 parser.add_argument('-max_iterations', type=int, default=80000)
-parser.add_argument('-plt_num_PCs', type=int, default=5)
+parser.add_argument('-plt_num_PCs', type=int, default=20)
 ## model parameters
-parser.add_argument('-model_name', type=str, default='smau')
+parser.add_argument('-model_name', type=str, default='lmau')
 parser.add_argument('-num_layers', type=int, default=4)
-parser.add_argument('-num_hidden', type=int, default=64) # 64 or 128
-parser.add_argument('-tau', type=int, default=20)
+parser.add_argument('-num_hidden', type=int, default=128) # 64 or 128
+parser.add_argument('-tau', type=int, default=40)
 parser.add_argument('-cell_mode', type=str, default='residual')
 parser.add_argument('-model_mode', type=str, default='recall')
 ## optimizer and scheduler:
 parser.add_argument('-lr', type=float, default=1e-3)
 parser.add_argument('-lr_decay', type=float, default=0.85)
-parser.add_argument('-step_size', type=int, default=3000) # consider interation
+parser.add_argument('-step_size', type=int, default=4000) # consider interation
 parser.add_argument('-loss_type', type=str, default='L1+L2')
 
 ## test
-parser.add_argument('-test_interval', type=int, default=1000)
-parser.add_argument('-num_save_samples', type=int, default=5)
+parser.add_argument('-test_interval', type=int, default=4000)
+parser.add_argument('-num_save_samples', type=int, default=11)
 parser.add_argument('-is_training', type=int, default=1)
 parser.add_argument('-load_model', type=int, default=0)
 parser.add_argument('-device', type=str, default='cuda:0')

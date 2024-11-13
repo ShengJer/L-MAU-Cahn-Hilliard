@@ -47,7 +47,7 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 
 2. the submit.sh file show an example of the reqired parameters for execute run.py (user must specify the training data directory: train_filepath)
 
-3. the training data directory must has several training data (.npz file) having shape (TL(total time), Ny, Nx) that can be loaded by numpy command ` np.load(filename)['data']` (an example file is placed in directory train_data)
+3. the training data directory must have several training data (.npz file) having shape (TL(total time), Ny, Nx) that can be loaded by numpy command ` np.load(filename)['data']` (an example file is placed in directory train_data)
 
 ### LCA pipelines
   a. train the low compression autoencoder and transform high dimensional training and validating dataset into latent space features.
