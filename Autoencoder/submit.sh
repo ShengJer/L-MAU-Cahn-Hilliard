@@ -2,8 +2,8 @@
 
 echo "start Autoencoder model"
 
-python3 run.py \
--train_filepath ./train_data \
+python3 main_body.py \
+-train_filepath ../../High_Dimension_data/microstructure_data/train \
 -ckpt_path ckpt_path \
 -graph_path graph_path \
 -load_model 0 \
@@ -18,6 +18,7 @@ python3 run.py \
 -lr 0.001 \
 -step_size 50 \
 -gamma 0.8 \
+-alpha 10.0 \
 -device cuda:0 \
 -display_epoch 20 \
 -valid_epoch 100 \

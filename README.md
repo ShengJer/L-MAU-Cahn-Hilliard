@@ -24,40 +24,66 @@ mpirun -np <number_of_processors> CH_variable_mobility.out
 ``` 
 Examples: <br>
 ![CH_animation!](CH_evol/CH_animation.gif)
-## L-MAU_model folder
+# Machine Learning Pipeline
+
+## A. &nbsp; Data preparation
+1. &nbsp; Please generate microstructure and autocorrelation data by the MPI_CH_solver. The data should be stored in numpy format and be read by `np.load(filename)['data']`. The shape of the stored microstructure array and autocorrelation is of shape (TL, 1, Ny, Nx) and (TL, Ny, Nx), respectively, where TL is the total simulation time steps, and Nx, Ny are the 2D spatial dimension. <br>
+
+2. &nbsp; Separate all data into three datasets: training, validation, and testing, and place them into the corresponding folder in **./High_Dimension_data**. An example data format is placed in **./High_Dimension_data/autocorrelation_data/train**, and **./High_Dimension_data/microstructure_data/train**.
+
+
+## B. &nbsp; PCA, Autocoencoder model, data creation
+
+### I. &nbsp; Autocorrelation pipeline
+1.  &nbsp; In **./Model_Reducedata/Autocorrelation_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
+(All the parameters specified by user are listed in submit.sh)
+
+2. &nbsp; PCA model and PCA data from autocorrelation data would be created.
+
+### II. &nbsp; (C)LCA+PCA pipeline
+1. &nbsp; Train LCA or C-LCA model in **./Autoencoder** by submitting the script file **submit.sh** in terminal or execute run.py file in python IDE 
+(All the parameters specified by user are listed in submit.sh).
+
+2. Copy trained LCA or C-LCA model to **./Model_Reducedata/(C)LCA+PCA_pipeline/LCA_model**
+
+3.  &nbsp; In **./Model_Reducedata/(C)LCA_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
+
+4. &nbsp; PCA model and reduced data from (C)LCA+PCA would be created.
+
+### III. &nbsp; HCA pipeline
+1. &nbsp; Train HCA model in **./Autoencoder** by submitting the script file **submit.sh** in terminal or execute run.py file in python IDE 
+(All the parameters specified by user are listed in submit.sh).
+
+2. Copy trained HCA model to **./Model_Reducedata/HCA_pipeline/HCA_model**
+
+3.  &nbsp; In **./Model_Reducedata/HCA_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
+
+4. &nbsp; PCA model and reduced data from HCA would be created.
+
+## C. &nbsp; LMAU model training
+**LMAU_model** :<br>
 The code is modified from Ref.[3], the original MAU model, to inherit the capability of MAU model for predicting low dimensional data evolution.
+### I. &nbsp; Autocorrelation pipeline
+1. &nbsp;  copy the PCA model and PCA data been created from the file **gPCA.py** and **create_PCAdata.py** in **./Model_Reducedata/Autocorrelation_pipeline** to the directory in **./LMAU_model/Autocorrelation_pipeline/data/PCA_model** and **./LMAU_model/Autocorrelation_pipeline/data/PCA_data**
 
-### Autocorrelation pipeline
-1. Please generate the evolution by MPI solver and store it into a (TL, Ny, Nx) numpy array which TL is the total simulation time steps and Nx, Ny is the 2D spatial dimension.
-  
-2. Place the training data into ./data/auto_data/auto_train_data, the validating data into ./data/auto_data/auto_valid_data, and the testing data into ./data/auto_data/auto_test_data.
-	
-3. modify and run the ./data/gPCA.py file to generate PCA model in ./data/PCA_model (some parameters need to be changed according to the size of training set, and the PCA components you want).
+2. &nbsp; submit the **submit.sh** script file or execute the run.py file in python IDE for training, validation and testing.
 
-4. run the ./data/create_PCAdata to transform autocorrelation data into PCA data with reduced dimension by the PCA model been created early (some parameters still need to be change according to the user at the start of the .py file).
+### II. &nbsp; (C)LCA+PCA pipeline
+1. &nbsp;  copy the PCA model and reduced data been created from the file **gLCA_PCA.py** and **create_LCAencoderdata.py** in **./Model_Reducedata/(C)LCA+PCA_pipeline** to the directory in **./LMAU_model/(C)LCA+PCA_pipeline/data/PCA_model** and **./LMAU_model/(C)LCA+PCA_pipeline/data/encoder_data**
 
-5. To run the L-MAU model, please change the parameters inside the submit.sh file and execute the bashfile by ` bash submit.sh` or write a script file for the cluster scheduler.
+2. &nbsp; copy the LCA or C-LCA been trained from **./Autoencoder/main_body.py** to the **./LMAU_model/(C)LCA+PCA_pipeline/data/LCA_model**
 
+3. &nbsp; submit the **submit.sh** script file or execute the run.py file in python IDE for training, validation and testing.
 
-## Analysis folder
-* This folder includes two files: Autocorrelation.py and Structure_factor.py for statistical analysis
+### III. &nbsp; HCA pipeline
+1. &nbsp;  copy the reduced data been created from the file **create_HCAencoderdata.py** in **./Model_Reducedata/HCA_pipeline** to the directory in **./LMAU_model/HCA_pipeline/data/encoder_data**
 
-## Autoencoder folder
-1. This folder includes the model of LCA (low compression ratio) and HCA (high compression ratio) in model_autoencoder.py and the training process in run.py
+2. &nbsp; copy the HCA model been trained from **./Autoencoder/main_body.py** to the **./LMAU_model/HCA_pipeline/data/HCA_model**
 
-2. the submit.sh file show an example of the reqired parameters for execute run.py (user must specify the training data directory: train_filepath)
+3. &nbsp; submit the **submit.sh** script file or execute the run.py file in python IDE for training, validation and testing.
 
-3. the training data directory must have several training data (.npz file) having shape (TL(total time), Ny, Nx) that can be loaded by numpy command ` np.load(filename)['data']` (an example file is placed in directory train_data)
-
-### LCA pipelines
-  a. train the low compression autoencoder and transform high dimensional training and validating dataset into latent space features.
-  
-  b. generate PCA model and data by fitting the latent space features.
-  
-  c. transform latent space features into PCA data with reduced dimension by the PCA model been created.
-
-  d. run the L-MAU model to perform prediction on low dimensional evolution. 
-
+## D. &nbsp; Analysis folder
+* This folder includes three files: Autocorrelation.py Structure_factor.py for statistical analysis and GS_algorithm for phase recovery.
 
 
 ## Reference
