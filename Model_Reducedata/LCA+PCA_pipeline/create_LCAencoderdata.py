@@ -86,7 +86,6 @@ store = []
 model.eval()
 with torch.no_grad():
     for batchidx, inp in enumerate(train_loader):
-        print("Train: inp shape={}".format(inp.shape))
         inp = inp.reshape((-1, args.channels, args.height, args.width))
         inp=inp.to(torch.float32).to(device)
         _, latent = model(inp) #input (BxT, C, H, W)
@@ -109,7 +108,6 @@ print("train_data finish, begin with valid data")
 store = []
 with torch.no_grad():
     for batchidx, inp in enumerate(valid_loader):
-        print("Valid: inp shape={}".format(inp.shape))
         inp = inp.reshape((-1, args.channels, args.height, args.width))
         inp=inp.to(torch.float32).to(device)
         _, latent = model(inp) #input (BxT, C, H, W)
