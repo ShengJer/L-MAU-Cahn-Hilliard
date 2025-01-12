@@ -4,12 +4,6 @@
 #PBS -q workq
 #PBS -o create_HCA_data.out
 #PBS -e create_HCA_data.err
-#PBS -m abe
-#PBS -M samchen1999@gmail.com
-
-cd $PBS_O_WORKDIR
-module load cuda-11.1
-
 
 echo "Create training, validation, testing data for HCA pipeline"
 

@@ -4,13 +4,8 @@
 #PBS -q workq
 #PBS -o create_LCA_data.out
 #PBS -e create_LCA_data.err
-#PBS -m abe
-#PBS -M samchen1999@gmail.com
 
 set -e  # Exit on any command failure
-
-cd $PBS_O_WORKDIR
-module load cuda-11.1
 
 # Define reusable variables
 DATA_DIR=../../High_Dimension_data/microstructure_data # the directory of high dimensional microstructure

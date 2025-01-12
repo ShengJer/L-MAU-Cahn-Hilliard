@@ -1,16 +1,11 @@
 #!/bin/bash
 #PBS -N Autocorrelation_data_model
-#PBS -l select=1:vnode=cftlab-c1:ncpus=1:mem=502gb
+#PBS -l select=1:vnode=cftlab-c1:ncpus=1
 #PBS -q workq
 #PBS -o Autocorrelation_data_model.out
 #PBS -e Autocorrelation_data_model.err
-#PBS -m abe
-#PBS -M samchen1999@gmail.com
 
 set -e  # Exit script on any command failure
-
-cd $PBS_O_WORKDIR
-module load cuda-11.1
 
 DATA_DIR=../../High_Dimension_data/autocorrelation_data # the directory of high dimensional autocorrelation data
 PCA_PATH=PCA_model_PC=50 # the directory for storing PCA model in autocorrelation pipeline
