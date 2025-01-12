@@ -1,8 +1,19 @@
 #!/bin/bash
+#PBS -N create_HCA_data
+#PBS -l select=1:vnode=cftlab-g1[0]:ncpus=1:mpiprocs=1:ngpus=1
+#PBS -q workq
+#PBS -o create_HCA_data.out
+#PBS -e create_HCA_data.err
+#PBS -m abe
+#PBS -M samchen1999@gmail.com
+
+cd $PBS_O_WORKDIR
+module load cuda-11.1
+
 
 echo "Create training, validation, testing data for HCA pipeline"
 
-python3 create_encoderdata.py \
+python3 create_HCAencoderdata.py \
 -train_filepath ../../High_Dimension_data/microstructure_data/train \
 -valid_filepath ../../High_Dimension_data/microstructure_data/valid \
 -test_filepath ../../High_Dimension_data/microstructure_data/test \
@@ -16,6 +27,6 @@ python3 create_encoderdata.py \
 -latent_width 1 \
 -latent_height 1 \
 -latent_channel 256 \
--batch_size 10 \
--num_workers 4 \
+-batch_size 20 \
+-num_workers 2 \
 -result_path HCA_data \

@@ -29,8 +29,8 @@ def save_direct(direct_name):
     directory = os.path.join(Current_directory, direct_name)
     if not os.path.exists(directory):
           os.makedirs(directory)
-    return directory
 
+print("start building PCA model")
 
 train_filelist = os.listdir(args.train_filepath)
 
@@ -44,7 +44,7 @@ for i in range(samples):
 
 
 pca = PCA(
-    svd_solver='full',
+    #svd_solver='full',
     n_components=args.PCA_components)
 
 PCA_trans = pca.fit_transform(auto.reshape((samples)*args.time,args.width*args.height))
@@ -55,8 +55,8 @@ exp_var_pca = pca.explained_variance_ratio_
 cum_sum_eigenvalues = np.cumsum(exp_var_pca)
 print("variance={}".format(cum_sum_eigenvalues[-1]))
 
-model_direct=save_direct(direct_name=args.PCA_path)
-filename = os.path.join(model_direct, 'PCA_variance.png')
+save_direct(direct_name=args.PCA_path)
+filename = os.path.join(args.PCA_path, 'PCA_variance.png')
 plt.plot(range(1, len(cum_sum_eigenvalues)+1), cum_sum_eigenvalues, marker='.')
 plt.xlabel("principle components")
 plt.ylabel("variance")
@@ -64,9 +64,9 @@ plt.savefig(filename)
 plt.close()
 
 
-modelname = os.path.join(model_direct, 'pca_{}.pkl'.format(args.PCA_components))
+modelname = os.path.join(args.PCA_path, 'pca_{}.pkl'.format(args.PCA_components))
 pk.dump(pca, open(modelname,"wb"))
-var_name = os.path.join(model_direct, 'cum_var.npy')
+var_name = os.path.join(args.PCA_path, 'cum_var.npy')
 np.save(var_name, cum_sum_eigenvalues)
 
 

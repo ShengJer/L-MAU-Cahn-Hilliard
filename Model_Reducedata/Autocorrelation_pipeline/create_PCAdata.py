@@ -4,7 +4,11 @@ import os
 import argparse
 
 
-
+def save_direct(direct_name):
+    Current_directory = os.getcwd()
+    directory = os.path.join(Current_directory, direct_name)
+    if not os.path.exists(directory):
+          os.makedirs(directory)
 
 parser = argparse.ArgumentParser(description='Generate training, validation, testing data from  PCA model')
 parser.add_argument('-train_filepath', type=str, default='../../High_Dimension_data/autocorrelation_data/train')
@@ -15,6 +19,7 @@ parser.add_argument('-PCA_components', type=int, default=500)
 parser.add_argument('-PCA_path', type=str, default='PCA_model_PC=50')
 parser.add_argument('-result_path', type=str, default='PCA_data_PC=50')
 
+args = parser.parse_args()
 
 train_filelist = os.listdir(args.train_filepath)
 valid_filelist = os.listdir(args.valid_filepath)
@@ -34,6 +39,7 @@ for i in range(len(train_filelist)):
     ims=pca_model.transform(ims)
     PCA_train_data[i, :, :] = ims
     
+save_direct(direct_name=args.result_path)
 arrayname = os.path.join(args.result_path, 'PCA_train_data.npz')
 np.savez_compressed(arrayname, data=PCA_train_data)
 del PCA_train_data

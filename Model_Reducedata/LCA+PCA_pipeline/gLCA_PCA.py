@@ -39,12 +39,10 @@ args = parser.parse_args()
 
 
 train_samples = len(os.listdir(args.train_filepath))
-valid_samples = len(os.listdir(args.valid_filepath))
 test_samples = len(os.listdir(args.test_filepath))
 
 # Load training and validation dataset
 train_dataset = PhaseDataset(data_filepath=args.train_filepath, config=args, number_of_samples=train_samples)
-valid_dataset = PhaseDataset(data_filepath=args.valid_filepath, config=args, number_of_samples=valid_samples)
 
 
 # Load testing dataset in order
@@ -73,7 +71,7 @@ train_loader = DataLoader(train_dataset,
                           num_workers=args.num_workers)
 
 model = LCA(in_channels=args.channels)
-device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
+device = torch.device("cuda:{}".format(args.device) if torch.cuda.is_available() else 'cpu')
 
 
 # load the model:
@@ -83,8 +81,10 @@ print("load model from"+filename)
 stats = torch.load(filename, map_location=device)
 model.load_state_dict(stats['model_param'])
 
+
 data_latent = []
 model.eval()
+'''
 with torch.no_grad():
     for batchidx, inp in enumerate(train_loader):
         ## reshape the input tensor into desire shape
@@ -113,11 +113,10 @@ with torch.no_grad():
     exp_var_pca = pca.explained_variance_ratio_
     cum_sum_eigenvalues = np.cumsum(exp_var_pca)
     print("variance={}".format(cum_sum_eigenvalues[-1]))
-    dir_name = os.path.join(args.results_path)
-    result_dir = save_direct(dir_name)
-    modelname = os.path.join(result_dir, 'pca_{}.pkl'.format(args.PCA_components))
+    save_direct(args.PCA_path)
+    modelname = os.path.join(args.PCA_path, 'pca_{}.pkl'.format(args.PCA_components))
     pk.dump(pca, open(modelname,"wb"))
-    var_name = os.path.join(result_dir, 'cum_var_ms.npy')
+    var_name = os.path.join(args.PCA_path, 'cum_var_ms.npy')
     np.save(var_name, cum_sum_eigenvalues)
 
 ### plot the 3D plot
@@ -135,13 +134,11 @@ for i in np.arange(0, 360, 30):
     
     ax.view_init(azim=i, elev=23)
     
-    filename = os.path.join(result_dir, "3D_Auto_azim={}_ms.png".format(i))
+    filename = os.path.join(args.PCA_path, "3D_Auto_azim={}_ms.png".format(i))
     fig.savefig(filename)
     plt.close()
-
-dir_name = os.path.join(args.results_path)
-result_dir = save_direct(dir_name)
-modelname = os.path.join(result_dir, 'pca_{}.pkl'.format(args.PCA_components))
+'''
+modelname = os.path.join(args.PCA_path, 'pca_{}.pkl'.format(args.PCA_components))
 
 ## load PCA model
 pca_reload = pk.load(open(modelname,"rb"))
@@ -152,56 +149,57 @@ reconstruction_loss = 0
 inp = data_np
 inp = inp.reshape((-1, args.channels, args.height, args.width))
 inp=torch.from_numpy(inp).to(torch.float32).to(device)
+with torch.no_grad():
+    dir_decode, latent = model(inp)
+    latent =latent.cpu().numpy() # (SxT, 128, 8, 8)
+    shape = latent.shape
+    latent = latent.reshape((shape[0], -1)).astype(np.float32) #(SxT, 128x8x8)
 
-dir_decode, latent = model(inp)
-latent =latent.cpu().numpy() # (SxT, 128, 8, 8)
-shape = latent.shape
-latent = latent.reshape((shape[0], -1)).astype(np.float32) #(SxT, 128x8x8)
+    pc_trans = pca_reload.transform(latent) #(SxT, PCA)
+    pc_projected = pca_reload.inverse_transform(pc_trans) #(SxT, 128x8x8)
 
-pc_trans = pca_reload.transform(latent) #(SxT, PCA)
-pc_projected = pca_reload.inverse_transform(pc_trans) #(SxT, 128x8x8)
+    PD_data = pc_projected.reshape(latent.shape) #(SxT, 128,8,8)
 
-PD_data = pc_projected.reshape(latent.shape) #(SxT, 128,8,8)
+    total_loss=LA.norm(latent-pc_projected, None) 
 
-total_loss=LA.norm(latent-pc_projected, None) 
+    reconstruction_loss += total_loss
+    PD_data = PD_data.reshape((-1, args.latent_channel, args.latent_width, args.latent_height))
+    PD_data=torch.from_numpy(PD_data).to(torch.float32).to(device)
 
-reconstruction_loss += total_loss
-PD_data = PD_data.reshape((-1, args.latent_channel, args.width, args.height))
-PD_data=torch.from_numpy(PD_data).to(torch.float32).to(device)
-pred = model.decoder(PD_data) # (SxT, 1, 256, 256)
+    pred = model.decoder(PD_data) # (SxT, 1, 256, 256)
 
-inp = inp.reshape((len(data_np), args.time, args.height, args.width))
-pred = pred.reshape(((len(data_np), args.time, args.height, args.width)))
-dir_decode = dir_decode.reshape(((len(data_np), args.time, args.height, args.width)))
-inp = inp.cpu().numpy()
-pred = pred.cpu().numpy()
-dir_decode =dir_decode.cpu().numpy()
+    inp = inp.reshape((len(data_np), args.time, args.height, args.width))
+    pred = pred.reshape(((len(data_np), args.time, args.height, args.width)))
+    dir_decode = dir_decode.reshape(((len(data_np), args.time, args.height, args.width)))
+    inp = inp.cpu().numpy()
+    pred = pred.cpu().numpy()
+    dir_decode =dir_decode.cpu().numpy()
 
 
 for i in range(len(data_np)):
     dir_name = os.path.join(args.graph_path, str(i+1))
-    graph_dir = save_direct(dir_name)
+    save_direct(dir_name)
     x = np.arange(0, inp.shape[2])
     y = np.arange(0, inp.shape[3])
     X, Y = np.meshgrid(x, y)
     rangeGT = [10, 20 ,30 ,40 ,50, 60, 70, 79]
     for j in rangeGT:
         name = 'gt' + str(j) + '.png'
-        file_name = os.path.join(graph_dir, name)
+        file_name = os.path.join(dir_name, name)
         counter_set = plt.contourf(X, Y, inp[i, j, :, :], levels=np.linspace(0, 1, 30))
         plt.colorbar(counter_set, label='$\phi_{p}$')
         plt.savefig(file_name)
         plt.close()
     for j in rangeGT:
         name = 'PCA+decode' + str(j) + '.png'
-        file_name = os.path.join(graph_dir, name)
+        file_name = os.path.join(dir_name, name)
         counter_set = plt.contourf(X, Y, pred[i, j, :, :], levels=np.linspace(0, 1, 30))
         plt.colorbar(counter_set, label='$\phi_{p}$')
         plt.savefig(file_name)
         plt.close()
     for j in rangeGT:
         name = 'Dir-decode' + str(j) + '.png'
-        file_name = os.path.join(graph_dir, name)
+        file_name = os.path.join(dir_name, name)
         counter_set = plt.contourf(X, Y, dir_decode[i, j, :, :], levels=np.linspace(0, 1, 30))
         plt.colorbar(counter_set, label='$\phi_{p}$')
         plt.savefig(file_name)
@@ -210,20 +208,3 @@ for i in range(len(data_np)):
 ## save the data
 data_filename = os.path.join(args.graph_path, 'Reconstruct_data_compressed.npz')
 np.savez_compressed(data_filename, inp=inp, dir_decode=dir_decode, PCA_decode=pred)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

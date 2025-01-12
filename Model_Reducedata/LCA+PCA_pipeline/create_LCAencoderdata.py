@@ -9,6 +9,7 @@ from auto_dataset import PhaseDataset
 import argparse
 import pickle as pk
 import re
+from utils import *
 
 parser = argparse.ArgumentParser(description='Generate training, validation, testing data from trained PCA and Autoencoder data (C-)LCA')
 parser.add_argument('-train_filepath', type=str, default='../../High_Dimension_data/microstructure_data/train')
@@ -67,7 +68,7 @@ valid_loader = DataLoader(valid_dataset,
                           shuffle=False,
                           num_workers=args.num_workers)
 
-device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
+device = torch.device("cuda:{}".format(args.device) if torch.cuda.is_available() else 'cpu')
 
 
 model = LCA(in_channels=args.channels)
@@ -99,8 +100,8 @@ with torch.no_grad():
         store.append(pc_trans)
         
 store = np.concatenate(store) # (Total, T, Pcs)
-
-train_data_name = os.path.join(args.save_path, 'train_data_{}.npz'.format(args.PCA_components))
+save_direct(args.result_path)
+train_data_name = os.path.join(args.result_path, 'train_data_{}.npz'.format(args.PCA_components))
 np.savez(train_data_name, data=store)
 
 print("train_data finish, begin with valid data")
@@ -122,7 +123,7 @@ with torch.no_grad():
         
 store = np.concatenate(store)
 
-valid_data_name = os.path.join(args.save_path, 'valid_data_{}.npz'.format(args.PCA_components))
+valid_data_name = os.path.join(args.result_path, 'valid_data_{}.npz'.format(args.PCA_components))
 np.savez(valid_data_name, data=store)
 
 store = []
@@ -139,5 +140,5 @@ with torch.no_grad():
     pc_trans = pc_trans.reshape((-1, args.time, args.PCA_components)) #(B,T,PCs)
     store=pc_trans
     
-test_data_name = os.path.join(args.save_path, 'test_data_{}.npz'.format(args.PCA_components))
+test_data_name = os.path.join(args.result_path, 'test_data_{}.npz'.format(args.PCA_components))
 np.savez(test_data_name, data=store)

@@ -9,6 +9,8 @@ from auto_dataset import PhaseDataset
 import argparse
 import pickle as pk
 import re
+from utils import *
+
 
 parser = argparse.ArgumentParser(description='Generate training, validation, testing data from trained HCA')
 parser.add_argument('-train_filepath', type=str, default='../../High_Dimension_data/microstructure_data/train')
@@ -68,7 +70,7 @@ valid_loader = DataLoader(valid_dataset,
                           shuffle=False,
                           num_workers=args.num_workers)
 
-device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
+device = torch.device("cuda:{}".format(args.device) if torch.cuda.is_available() else 'cpu')
 
 
 model = HCA(in_channels=args.channels)
@@ -92,6 +94,7 @@ with torch.no_grad():
         store.append(latent)
         
 store = np.concatenate(store) # (Total, T, features)
+save_direct(args.result_path)
 train_data_name = os.path.join(args.result_path, 'train_data_{}.npz'.format(args.latent_width*args.latent_height*args.latent_channel))
 np.savez(train_data_name, data=store)
 

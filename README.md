@@ -40,11 +40,11 @@ Examples: <br>
 
 2. &nbsp; PCA model and PCA data from autocorrelation data would be created.
 
-### II. &nbsp; (C)LCA+PCA pipeline
+### II. &nbsp; (C-)LCA+PCA pipeline
 1. &nbsp; Train LCA or C-LCA model in **./Autoencoder** by submitting the script file **submit.sh** in terminal or execute run.py file in python IDE 
 (All the parameters specified by user are listed in submit.sh).
 
-2. Copy trained LCA or C-LCA model to **./Model_Reducedata/(C)LCA+PCA_pipeline/LCA_model**
+2. Copy trained LCA or C-LCA model to **./Model_Reducedata/LCA+PCA_pipeline/LCA_model**
 
 3.  &nbsp; In **./Model_Reducedata/(C)LCA_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
 
@@ -68,10 +68,10 @@ The code is modified from Ref.[3], the original MAU model, to inherit the capabi
 
 2. &nbsp; submit the **submit.sh** script file or execute the run.py file in python IDE for training, validation and testing.
 
-### II. &nbsp; (C)LCA+PCA pipeline
-1. &nbsp;  copy the PCA model and reduced data been created from the file **gLCA_PCA.py** and **create_LCAencoderdata.py** in **./Model_Reducedata/(C)LCA+PCA_pipeline** to the directory in **./LMAU_model/(C)LCA+PCA_pipeline/data/PCA_model** and **./LMAU_model/(C)LCA+PCA_pipeline/data/encoder_data**
+### II. &nbsp; (C-)LCA+PCA pipeline
+1. &nbsp;  copy the PCA model and reduced data been created from the file **gLCA_PCA.py** and **create_LCAencoderdata.py** in **./Model_Reducedata/LCA+PCA_pipeline** to the directory in **./LMAU_model/LCA+PCA_pipeline/data/PCA_model** and **./LMAU_model/LCA+PCA_pipeline/data/encoder_data**
 
-2. &nbsp; copy the LCA or C-LCA been trained from **./Autoencoder/main_body.py** to the **./LMAU_model/(C)LCA+PCA_pipeline/data/LCA_model**
+2. &nbsp; copy the LCA or C-LCA been trained from **./Autoencoder/main_body.py** to the **./LMAU_model/LCA+PCA_pipeline/data/LCA_model**
 
 3. &nbsp; submit the **submit.sh** script file or execute the run.py file in python IDE for training, validation and testing.
 

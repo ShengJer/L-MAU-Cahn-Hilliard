@@ -40,9 +40,10 @@ parser.add_argument('-display_epoch', type=int, default=20)
 parser.add_argument('-valid_epoch', type=int, default=50)
 
 args = parser.parse_args()
+train_samples = len(os.listdir(args.train_filepath))
 
 # Load dataset
-train_dataset = PhaseDataset(data_filepath=args.train_filepath, config=args)
+train_dataset = PhaseDataset(data_filepath=args.train_filepath, config=args, number_of_samples=train_samples)
 
 # create dataloader
 train_loader = DataLoader(train_dataset,

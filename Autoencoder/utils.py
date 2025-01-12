@@ -17,4 +17,3 @@ def save_direct(direct_name):
     directory = os.path.join(Current_directory, direct_name)
     if not os.path.exists(directory):
           os.makedirs(directory)
-    return directory
