@@ -2,7 +2,7 @@
 
 echo "start LMAU model"
 
-python3 run.py \
+python3 main_body.py \
 -train_data_paths ./data/PCA_data/PCA_train_data.npz \
 -valid_data_paths ./data/PCA_data/PCA_valid_data.npz \
 -test_data_paths ./data/PCA_data/PCA_test_data.npz \

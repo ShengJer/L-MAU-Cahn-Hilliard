@@ -1,6 +1,6 @@
 echo "start HCA-LMAU model"
 
-python3 run.py \
+python3 main_body.py \
 -train_data_paths ./data/encoder_data/train_data_300.npz \
 -valid_data_paths ./data/encoder_data/valid_data_300.npz \
 -test_data_paths ./data/encoder_data/test_data_300.npz \
