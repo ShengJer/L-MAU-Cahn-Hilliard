@@ -1,6 +1,10 @@
 #!/bin/bash
+set -e  # Exit on any command failure
 
-echo "start (C-)LCA+PCA+LMAU model"
+DEVICE=0
+# if load_model=0, save_modelname would not be activated. save_modelname would be activated only when is_training=0
+
+echo "$(date): start (C-)LCA+LMAU pipeline !! "
 
 python3 main_body.py \
 -train_data_paths ./data/encoder_data/train_data_300.npz \
@@ -8,7 +12,7 @@ python3 main_body.py \
 -test_data_paths ./data/encoder_data/test_data_300.npz \
 -test_ms_data_paths ../../High_Dimension_data/microstructure_data/test \
 -PCA_dir ./data/PCA_model \
--PCA_name pca_50.pkl \
+-PCA_name pca_300.pkl \
 -gen_frm_dir results \
 -test_frm_dir test_results \
 -save_dir checkpoints \
@@ -44,9 +48,9 @@ python3 main_body.py \
 -loss_type L1+L2 \
 -test_interval 4000 \
 -num_save_samples 3 \
--is_training 0 \
+-is_training 1 \
 -load_model 0 \
--device cuda:0 \
+-device cuda:$DEVICE \
 -scheduled_sampling 1 \
 -sampling_stop_iter 50000 \
 -sampling_start_value 1.0 \

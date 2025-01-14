@@ -1,13 +1,19 @@
 #!/bin/bash
 
-echo "start LMAU model"
+set -e  # Exit on any command failure
+
+DEVICE=0
+# if load_model=0, save_modelname would not be activated. save_modelname would be activated only when is_training=0
+
+echo "$(date): start Autocorrelation+LMAU pipeline !! "
+
 
 python3 main_body.py \
 -train_data_paths ./data/PCA_data/PCA_train_data.npz \
 -valid_data_paths ./data/PCA_data/PCA_valid_data.npz \
 -test_data_paths ./data/PCA_data/PCA_test_data.npz \
 -PCA_dir ./data/PCA_model \
--PCA_name pca.pkl \
+-PCA_name pca_50.pkl \
 -gen_frm_dir results \
 -test_frm_dir test_results \
 -save_dir checkpoints \
@@ -15,7 +21,7 @@ python3 main_body.py \
 -Graph_dir Graph \
 -dataset_name phase_field \
 -save_modelname model.pt.tar-58000 \
--batch_size 1 \
+-batch_size 10 \
 -in_features 50 \
 -img_width 256 \
 -img_height 256 \
@@ -36,10 +42,10 @@ python3 main_body.py \
 -lr_decay 0.85 \
 -step_size 3000 \
 -test_interval 4000 \
--num_save_samples 11 \
--is_training 0 \
+-num_save_samples 5 \
+-is_training 1 \
 -load_model 0 \
--device cuda:0 \
+-device cuda:$DEVICE \
 -scheduled_sampling 1 \
 -sampling_stop_iter 50000 \
 -sampling_start_value 1.0 \

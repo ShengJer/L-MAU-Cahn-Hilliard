@@ -38,27 +38,33 @@ Examples: <br>
 1.  &nbsp; In **./Model_Reducedata/Autocorrelation_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
 (All the parameters specified by user are listed in submit.sh)
 
-2. &nbsp; PCA model and PCA data from autocorrelation data would be created.
+2. &nbsp; Two directories would be created with the name from parameters `-PCA_path` and `-result_path`. <br>
+   2.1 PCA model from autocorrelation function will be stored in `-PCA_path` with two other files named **PCA_variance.png** and **cum_var.npy**. The first file is the cumulative explained variance to evaluate the quality of PCA model, and the second file is the variance data been stored.
+    
+   2.2 The low dimensional data been reduced from PCA is stored in `-result_path` with name **PCA_train_data.npz**, **PCA_valid_data.npz**, and **PCA_test_data.npz**
 
 ### II. &nbsp; (C-)LCA+PCA pipeline
-1. &nbsp; Train LCA or C-LCA model in **./Autoencoder** by submitting the script file **submit.sh** in terminal or execute run.py file in python IDE 
-(All the parameters specified by user are listed in submit.sh).
+1. &nbsp; Train LCA or C-LCA model in **./Autoencoder** by submitting the script file **submit.sh** in terminal or execute run.py file in python IDE  <br> **(All the parameters specified by user are listed in submit.sh).
 
-2. Copy trained LCA or C-LCA model to **./Model_Reducedata/LCA+PCA_pipeline/LCA_model**
+2. &nbsp; Copy trained LCA or C-LCA model to the directory **./Model_Reducedata/LCA+PCA_pipeline/LCA_model**
 
-3.  &nbsp; In **./Model_Reducedata/(C)LCA_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
+3.  &nbsp; In **./Model_Reducedata/LCA_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
 
-4. &nbsp; PCA model and reduced data from (C)LCA+PCA would be created.
+4. &nbsp; Three directories would be created with the name specified from parameters `-PCA_path`, `-graph_path`, and `-result_path`. <br>
+   4.1 &nbsp; PCA model with its cumulative explained variance built from the latent space of LCA or C-LCA would be stored in `-PCA_path`, named `pca_{# principle component}.pkl` and `cum_var_ms.npy`, respectively. 3D plots of first three principal components would be created in `-PCA_path` as well.
 
+   4.2 &nbsp; the testing result of reconstruction is stored in `-graph_path`. Two conditions are compared with ground truth (with filename **gtxx.png**). The first one is to test the capability of LCA or C-LCA by input ground truth data into encoder and reconstruct them from decoder directly (filename **Dir-decodexx.png**). The second one is to test the reconstructed capability of LCA or C-LCA + PCA by doing the same process again (filename **PCA+decodexx.png**). (**xx=** time)
+
+   4.3 &nbsp; the low dimensional data reduced from C-LCA + PCA is stored in `-result_path` with name **train_data_{xx}**, **valid_data_{xx}**, and **test_data_{xx}** (**xx=** `-PCA_components`)
 ### III. &nbsp; HCA pipeline
 1. &nbsp; Train HCA model in **./Autoencoder** by submitting the script file **submit.sh** in terminal or execute run.py file in python IDE 
 (All the parameters specified by user are listed in submit.sh).
 
-2. Copy trained HCA model to **./Model_Reducedata/HCA_pipeline/HCA_model**
+2. &nbsp; Copy trained HCA model to **./Model_Reducedata/HCA_pipeline/HCA_model**
 
-3.  &nbsp; In **./Model_Reducedata/HCA_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
+3. &nbsp; In **./Model_Reducedata/HCA_pipeline**, either run the script file **submit.sh** by terminal or execute **run.py** file in python IDE.
 
-4. &nbsp; PCA model and reduced data from HCA would be created.
+4. &nbsp; the low dimensional data reduced from HCA is stored in `-result_path` with name **train_data_256**, **valid_data_256**, and **test_data_256**
 
 ## C. &nbsp; LMAU model training
 **LMAU_model** :<br>

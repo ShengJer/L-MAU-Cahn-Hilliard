@@ -1,9 +1,18 @@
-echo "start HCA-LMAU model"
+#!/bin/bash
+
+
+set -e  # Exit on any command failure
+
+
+DEVICE=1
+# if load_model=0, save_modelname would not be activated. save_modelname would be activated only when is_training=0
+
+echo "$(date): start HCA+LMAU pipeline !! "
 
 python3 main_body.py \
--train_data_paths ./data/encoder_data/train_data_300.npz \
--valid_data_paths ./data/encoder_data/valid_data_300.npz \
--test_data_paths ./data/encoder_data/test_data_300.npz \
+-train_data_paths ./data/encoder_data/train_data_256.npz \
+-valid_data_paths ./data/encoder_data/valid_data_256.npz \
+-test_data_paths ./data/encoder_data/test_data_256.npz \
 -test_ms_data_paths ../../High_Dimension_data/microstructure_data/test \
 -gen_frm_dir results \
 -test_frm_dir test_results \
@@ -40,9 +49,9 @@ python3 main_body.py \
 -loss_type L1+L2 \
 -test_interval 4000 \
 -num_save_samples 3 \
--is_training 0 \
+-is_training 1 \
 -load_model 0 \
--device cuda:0 \
+-device cuda:$DEVICE \
 -scheduled_sampling 1 \
 -sampling_stop_iter 50000 \
 -sampling_start_value 1.0 \
