@@ -91,3 +91,4 @@ Parameters in the program : <br>
 * the `-batch_size` should be set to **1** for applying trained model on every testing samples.
 ## output
 * One directory would be created during this stage from `-test_frm_dir`
+    * subfolders corresponding to different testing samples are created.

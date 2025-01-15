@@ -3,7 +3,6 @@
 set -e  # Exit on any command failure
 
 DEVICE=0
-# if load_model=0, save_modelname would not be activated. save_modelname would be activated only when is_training=0
 
 echo "$(date): start Autocorrelation+LMAU pipeline !! "
 

@@ -20,7 +20,7 @@ def train(model, ims, real_input_flag, configs, itr):
 def test(model, pca_model, Automodel, test_input_handle, configs, itr):
     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'test...')
     if configs.is_training == 0:
-        res_path = os.path.join(configs.test_frm_dir, str(itr))
+        res_path = os.path.join(configs.test_frm_dir)
     else:
         res_path = os.path.join(configs.gen_frm_dir, str(itr))
         
@@ -115,7 +115,7 @@ def test(model, pca_model, Automodel, test_input_handle, configs, itr):
             pred_imag = pred_imag.reshape(configs.batch_size, configs.output_length, configs.img_height, configs.img_width)
             
             for k in range(len(orig_imag)): 
-                path = os.path.join(res_path, str(k+1))
+                path = os.path.join(res_path, str(batch_id))
                 os.makedirs(path)
                 
                 

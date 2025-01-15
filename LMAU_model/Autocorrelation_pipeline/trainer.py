@@ -19,7 +19,7 @@ def train(model, ims, real_input_flag, configs, itr):
 def test(model, pca_model, test_input_handle, configs, itr):
     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'test...')
     if configs.is_training == 0:
-        res_path = os.path.join(configs.test_frm_dir, str(itr))
+        res_path = os.path.join(configs.test_frm_dir)
     else:
         res_path = os.path.join(configs.gen_frm_dir, str(itr))
     test_input_handle.begin(do_shuffle=False)
@@ -38,7 +38,7 @@ def test(model, pca_model, test_input_handle, configs, itr):
          configs.total_length - configs.input_length - 1,
          configs.in_features))
     
-    while (test_input_handle.no_batch_left() == False):
+    while (test_input_handle.no_batch_left() == False or batch_id ==0):
         batch_id = batch_id + 1
         test_ims = test_input_handle.get_batch()  # (B, TL, PCs)
         
@@ -76,7 +76,7 @@ def test(model, pca_model, test_input_handle, configs, itr):
         # norm_test_ims (B,TL,Fin)
         # img_out (B,OL,Fin)
         # save prediction examples
-        if batch_id <= configs.num_save_samples:
+        if configs.is_training == 0 or batch_id <= configs.num_save_samples:
             path = os.path.join(res_path, str(batch_id))
             os.makedirs(path)
 

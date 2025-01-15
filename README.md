@@ -69,6 +69,7 @@ Examples: <br>
 ## C. &nbsp; LMAU model training
 **LMAU_model** :<br>
 The code is modified from Ref.[3], the original MAU model, to inherit the capability of MAU model for predicting low dimensional data evolution.
+
 ### I. &nbsp; Autocorrelation pipeline
 1. &nbsp;  copy the PCA model and PCA data been created from the file **gPCA.py** and **create_PCAdata.py** in **./Model_Reducedata/Autocorrelation_pipeline** to the directory in **./LMAU_model/Autocorrelation_pipeline/data/PCA_model** and **./LMAU_model/Autocorrelation_pipeline/data/PCA_data**
 

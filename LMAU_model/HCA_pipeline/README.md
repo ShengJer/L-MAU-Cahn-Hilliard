@@ -76,4 +76,25 @@ Parameters in the program : <br>
 - `-sampling_stop_iter`: end iteration in scheduled sampling
 - `-sampling_start_value`: startinig probability in scheduled sampling technique 
 - `-sampling_changing_rate`: probability decaying with sampling changing_rate
+<br>
+# Training, Validation Stage
+## Reminder
+* `-is_training` should be set to **1**
+* `-load_model` would be **0** for completely new training but **1** for training from previous checkpoint. In this case,  `-save_modelname` should be pointed to previous stored model.
+* the `-batch_size` cannot be specified larger than total number of validation samples or the validation stage would cause error.
+## output
+* Three directories would be created during this stage from `-save_dir`, `-Graph_dir`, and `-gen_frm_dir` <br>
+    * `-save_dir` is the directory for saving checkpoint model by early stopping.
+    * `-Graph_dir` is the directory for saving history of training and validation loss.
+    * `-gen_frm_dir` is the directory for saving validation result at each `-test_interval` iteration. each folder have `-num_save_samples` subfolders which is the first few batch results in validation. Inside each subfolder, the prediction and ground truth result of first `-plt_num_PCs` is compared. Also, the reconstructed autocorrelation is compared with the ground truth one in two different time frame as well.
+
+# Testing Stage
+## Reminder
+* `-is_training` should be set to **0**
+* If `-is_training` set to **0**, `-load_model` will not function anymore since testing stage should always read the checkpoint model.
+* `-save_modelname` must be pointed to previous stored model.
+* the `-batch_size` should be set to **1** for applying trained model on every testing samples.
+## output
+* One directory would be created during this stage from `-test_frm_dir`
+    * subfolders corresponding to different testing samples are created.
 
