@@ -10,14 +10,14 @@ import argparse
 import pickle as pk
 import re
 from utils import *
-
+import fnmatch
 parser = argparse.ArgumentParser(description='Generate training, validation, testing data from trained PCA and Autoencoder data (C-)LCA')
 parser.add_argument('-train_filepath', type=str, default='../../High_Dimension_data/microstructure_data/train')
 parser.add_argument('-valid_filepath', type=str, default='../../High_Dimension_data/microstructure_data/valid')
 parser.add_argument('-test_filepath', type=str, default='../../High_Dimension_data/microstructure_data/test')
 parser.add_argument('-PCA_path', type=str, default='Autoencoder_PCA_model')
-parser.add_argument('-PCA_components', type=int, default=500)
-parser.add_argument('-Autoencoder_dir', type=str, default='./data/Autoencoder_model')
+parser.add_argument('-PCA_components', type=int, default=300)
+parser.add_argument('-Autoencoder_dir', type=str, default='./LCA_model')
 parser.add_argument('-Autoencoder_name', type=str, default='EncoderDecoder.pt.tar')
 parser.add_argument('-device', type=str, default='cuda:0')
 parser.add_argument('-time', type=int, default=80)
@@ -28,13 +28,17 @@ parser.add_argument('-batch_size', type=int, default=20)
 parser.add_argument('-num_workers', type=int, default=2)
 parser.add_argument('-result_path', type=str, default='C-LCA_PCA_data')
 
+def get_files(filepath, pattern="iter=*.npz"):
+    valid_files = [file for file in os.listdir(filepath) if fnmatch.fnmatch(file, pattern)]
+    # Sort by the numeric part after "iter="
+    return sorted(valid_files, key=lambda x: int(x.split('=')[1].split('.')[0]))
 
 args = parser.parse_args()
 
 
-train_samples = len(os.listdir(args.train_filepath))
-valid_samples = len(os.listdir(args.valid_filepath))
-test_samples = len(os.listdir(args.test_filepath))
+train_samples = len(get_files(args.train_filepath))
+valid_samples = len(get_files(args.valid_filepath))
+test_samples = len(get_files(args.test_filepath))
 
 # Load training and validation dataset
 train_dataset = PhaseDataset(data_filepath=args.train_filepath, config=args, number_of_samples=train_samples)
@@ -68,7 +72,7 @@ valid_loader = DataLoader(valid_dataset,
                           shuffle=False,
                           num_workers=args.num_workers)
 
-device = torch.device("cuda:{}".format(args.device) if torch.cuda.is_available() else 'cpu')
+device = torch.device((args.device if torch.cuda.is_available() else 'cpu'))
 
 
 model = LCA(in_channels=args.channels)
@@ -140,3 +144,4 @@ with torch.no_grad():
     
 test_data_name = os.path.join(args.result_path, 'test_data_{}.npz'.format(args.PCA_components))
 np.savez(test_data_name, data=store)
+

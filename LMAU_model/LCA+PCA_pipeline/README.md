@@ -98,6 +98,7 @@ Parameters in the program : <br>
 * `-is_training` should be set to **0**
 * If `-is_training` set to **0**, `-load_model` will not function anymore since testing stage should always read the checkpoint model.
 * `-save_modelname` must be pointed to previous stored model.
+* `-save_dir`: must be pointed to directory for storing checkpoint model
 * the `-batch_size` should be set to **1** for applying trained model on every testing samples.
 ## output
 * One directory would be created during this stage from `-test_frm_dir`

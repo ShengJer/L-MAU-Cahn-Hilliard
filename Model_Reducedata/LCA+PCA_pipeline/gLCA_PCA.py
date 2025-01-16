@@ -71,8 +71,7 @@ train_loader = DataLoader(train_dataset,
                           num_workers=args.num_workers)
 
 model = LCA(in_channels=args.channels)
-device = torch.device("cuda:{}".format(args.device) if torch.cuda.is_available() else 'cpu')
-
+device = torch.device((args.device if torch.cuda.is_available() else 'cpu'))
 
 # load the model:
 model.to(device)
@@ -84,7 +83,7 @@ model.load_state_dict(stats['model_param'])
 
 data_latent = []
 model.eval()
-'''
+
 with torch.no_grad():
     for batchidx, inp in enumerate(train_loader):
         ## reshape the input tensor into desire shape
@@ -137,7 +136,7 @@ for i in np.arange(0, 360, 30):
     filename = os.path.join(args.PCA_path, "3D_Auto_azim={}_ms.png".format(i))
     fig.savefig(filename)
     plt.close()
-'''
+
 modelname = os.path.join(args.PCA_path, 'pca_{}.pkl'.format(args.PCA_components))
 
 ## load PCA model

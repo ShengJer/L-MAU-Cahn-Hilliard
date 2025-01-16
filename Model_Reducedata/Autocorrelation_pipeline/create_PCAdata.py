@@ -2,6 +2,7 @@ import numpy as np
 import pickle as pk
 import os
 import argparse
+import fnmatch
 
 
 def save_direct(direct_name):
@@ -21,9 +22,16 @@ parser.add_argument('-result_path', type=str, default='PCA_data_PC=50')
 
 args = parser.parse_args()
 
-train_filelist = os.listdir(args.train_filepath)
-valid_filelist = os.listdir(args.valid_filepath)
-test_filelist = os.listdir(args.test_filepath)
+
+def get_files(filepath, pattern="auto_iter=*.npz"):
+    valid_files = [file for file in os.listdir(filepath) if fnmatch.fnmatch(file, pattern)]
+    # Sort by the numeric part after "iter="
+    return sorted(valid_files, key=lambda x: int(x.split('=')[1].split('.')[0]))
+
+train_filelist = get_files(args.train_filepath)
+valid_filelist = get_files(args.valid_filepath)
+test_filelist = get_files(args.test_filepath)
+
 
 modelname = os.path.join(args.PCA_path, 'pca_{}.pkl'.format(args.PCA_components)) 
 pca_model = pk.load(open(modelname,"rb"))

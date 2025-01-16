@@ -1,18 +1,14 @@
 #!/bin/bash
-#PBS -N create_LCA_data
-#PBS -l select=1:vnode=cftlab-g1[1]:ncpus=1:mpiprocs=1:ngpus=1
-#PBS -q workq
-#PBS -o create_LCA_data.out
-#PBS -e create_LCA_data.err
 
 set -e  # Exit on any command failure
 
+
 # Define reusable variables
-DATA_DIR=../../High_Dimension_data/microstructure_data # the directory of high dimensional microstructure
-AUTOENCODER_DIR=./LCA_model # the directory of LCA or C-LCA model
-AUTOENCODER_NAME=EncoderDecoder.pt.tar # the name of LCA or C-LCA 
-PCA_PATH=Autoencoder_PCA_model # the directory for storing PCA model in (C-)LCA+PCA pipeline
-RESULT_PATH=C-LCA_PCA_data # the directory for storing reduced data
+DATA_DIR=../../High_Dimension_data/microstructure_data
+AUTOENCODER_DIR=./LCA_model
+AUTOENCODER_NAME=EncoderDecoder.pt.tar
+PCA_PATH=Autoencoder_PCA_model
+RESULT_PATH=C-LCA_PCA_data
 DEVICE=1
 
 echo "$(date): Create PCA model for (C-)LCA+PCA+LMAU pipeline"
@@ -23,7 +19,7 @@ python3 gLCA_PCA.py \
 -PCA_components 300 \
 -Autoencoder_dir $AUTOENCODER_DIR \
 -Autoencoder_name $AUTOENCODER_NAME \
--device $DEVICE \
+-device cuda:$DEVICE \
 -time 80 \
 -width 256 \
 -height 256 \
@@ -46,7 +42,7 @@ python3 create_LCAencoderdata.py \
 -PCA_components 300 \
 -Autoencoder_dir $AUTOENCODER_DIR \
 -Autoencoder_name $AUTOENCODER_NAME \
--device $DEVICE \
+-device cuda:$DEVICE \
 -time 80 \
 -width 256 \
 -height 256 \
